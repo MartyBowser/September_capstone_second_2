@@ -33,7 +33,7 @@ public class TransferController {
     @RequestMapping(path = "", method = RequestMethod.POST)
     public Transfer sendTransfer(@Valid @RequestBody Transfer transfer){
         transfer.setTransferStatusId(APPROVED);
-        transfer.setTransferType(SEND);
+        transfer.setTransferTypeId(SEND);
         Account accountFrom = accountDao.getAccountByUserId(transfer.getAccountFrom());
         Account accountTo = accountDao.getAccountByUserId(transfer.getAccountTo());
        int compare = accountTo.getBalance().compareTo(transfer.getAmount());
@@ -42,7 +42,7 @@ public class TransferController {
         updatedTransfer = transferDao.insertTransfer(transfer);
     }
         if(updatedTransfer != null){
-
+            accountDao.updateBalances(updatedTransfer);
 
         }
 }
