@@ -1,7 +1,7 @@
 package com.techelevator.tenmo.controller;
 
 
-import com.techelevator.tenmo.dao.AccountsPrimeDao;
+import com.techelevator.tenmo.dao.JdbcAccountsDao;
 import com.techelevator.tenmo.dao.UserDao;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +16,10 @@ import java.security.Principal;
 @PreAuthorize("isAuthenticated()")
 public class AccountController {
 
-    private AccountsPrimeDao accountsDao;
+    private JdbcAccountsDao accountsDao;
     private UserDao userDao;
 
-    public AccountController(UserDao dao, AccountsPrimeDao accountsDao){
+    public AccountController(UserDao dao, JdbcAccountsDao accountsDao){
         this.userDao = dao;
         this.accountsDao = accountsDao;
     }
@@ -28,8 +28,7 @@ public class AccountController {
     public BigDecimal getAccountBalance(Principal principal){
         int userId = userDao.findIdByUsername(principal.getName());
         //
-        Principal accounts = null;
-        return userDao.getUserById(getAccountBalance(principal.getName());
+        return accountsDao.getAccountByUserId(userId).getBalance();
     }
 
 }
