@@ -38,6 +38,13 @@ public class JdbcAccountsDao implements AccountsDao {
 
         }
 
+     public Account updateBalances(BigDecimal balance, int user_id){
+        Account result = account;
+        boolean finished = false;
+        List<>
+
+     }
+
     private Account mapAccount(SqlRowSet results) {
         Account a = new Account();
 
