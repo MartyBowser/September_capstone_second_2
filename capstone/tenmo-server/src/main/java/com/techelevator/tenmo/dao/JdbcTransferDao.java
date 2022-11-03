@@ -5,25 +5,32 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class JdbcTransferDao implements TransferDao{
 
     private final JdbcTemplate jdbcTemplate;
+    private final JdbcAccountsDao jdbcAccountsDao;
 
-
-    public JdbcTransferDao(JdbcTemplate jdbcTemplate) {
+    public JdbcTransferDao(JdbcTemplate jdbcTemplate, JdbcAccountsDao jdbcAccountsDao) {
         this.jdbcTemplate = jdbcTemplate;
+        this.jdbcAccountsDao = jdbcAccountsDao;
     }
 
     public Transfer insertTransfer(Transfer transfer) {
         return null;
     }
 
-    public Transfer getTransferByUserId(int transferId) {
+    public List<Transfer> getTransfersByUserId(int userId) {
         return null;
     }
 
     @Override
+    public Transfer getTransferByTransferId(int id) {
+        return null;
+    }
+
+
     public Transfer resultToTransfer(int transferId) {
         return null;
     }
@@ -36,7 +43,7 @@ public class JdbcTransferDao implements TransferDao{
 
 
 
-    public int transferByTransferId(int transferId) {
+    public Transfer transferByTransferId(int transferId) {
         //Step 1 - declare the return type
 
         //Step 2 - create the sql
@@ -54,7 +61,31 @@ public class JdbcTransferDao implements TransferDao{
             //Step 5 - return
 
         }
-        return transferId;
+        return transfer;
+    }
+
+
+    public String sendTransfer(int accountFrom, int accountTo, BigDecimal amount) {
+        if(accountFrom == accountTo) {
+            return "You can not send money to yourself.";
+        }
+         if ((amount.compareTo(jdbcAccountsDao.getBalance(accountFrom)) == 1 || amount.compareTo(jdbcAccountsDao.getBalance(accountFrom)) == 0) && amount.compareTo(new BigDecimal(0)) == -1) {
+
+             jdbcAccountsDao.addToBalance(amount, accountTo);
+             jdbcAccountsDao.subtractFromBalance(amount, accountFrom);
+             Transfer transferToTrack = new Transfer();
+             transferToTrack.setAccountFrom(accountFrom);
+             transferToTrack.setAccountTo(accountTo);
+             transferToTrack.setAmount(amount);
+             transferToTrack.setTransferStatusId(2);
+             transferToTrack.setTransferTypeId(1);
+
+             return "Your transfer is complete";
+         } else {
+
+             return "Transfer failed";
+         }
+
     }
 
     private Transfer mapResultToTransfer(SqlRowSet results) {

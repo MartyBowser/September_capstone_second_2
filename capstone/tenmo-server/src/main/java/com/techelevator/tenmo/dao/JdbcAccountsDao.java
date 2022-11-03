@@ -39,7 +39,9 @@ public class JdbcAccountsDao implements AccountsDao {
         }
 
     public BigDecimal getBalance(int user_id) {
-        String sql = "";
+        String sql = "SELECT balance " +
+                "FROM account " +
+                "WHERE user_id = ?;";
 
         SqlRowSet results = null;
         BigDecimal balance = jdbcTemplate.queryForObject(sql, BigDecimal.class, user_id);
@@ -50,9 +52,22 @@ public class JdbcAccountsDao implements AccountsDao {
 
     public BigDecimal addToBalance(BigDecimal amountToAdd, int id) {
 
-        String sql = "";
+        String sql = "UPDATE account " +
+                "SET balance = ? " +
+                "WHERE user_id = ? RETURNING *;";
 
-        BigDecimal newBalance = jdbcTemplate.queryForObject(sql, BigDecimal.class, amountToAdd, id);
+        BigDecimal newBalance = jdbcTemplate.queryForObject(sql, BigDecimal.class, amountToAdd.add(getBalance(id)) , id);
+
+        return newBalance;
+    }
+
+    public BigDecimal subtractFromBalance(BigDecimal amountToSubtract, int id) {
+
+        String sql = "UPDATE account " +
+                "SET balance = ? " +
+                "WHERE user_id = ? RETURNING *;";
+
+        BigDecimal newBalance = jdbcTemplate.queryForObject(sql, BigDecimal.class, getBalance(id).subtract(amountToSubtract), id);
 
         return newBalance;
     }
@@ -60,12 +75,12 @@ public class JdbcAccountsDao implements AccountsDao {
 
 
 
-     public Account updateBalances(BigDecimal balance, int user_id){
-        Account result = account;
-        boolean finished = false;
-        List<>
+     //public Account updateBalances(BigDecimal balance, int user_id){
+       //Account result = account;
+        //boolean finished = false;
+        //List<>
 
-     }
+     //}
 
     private Account mapAccount(SqlRowSet results) {
         Account a = new Account();

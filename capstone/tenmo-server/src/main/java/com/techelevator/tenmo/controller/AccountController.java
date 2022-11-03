@@ -4,6 +4,7 @@ package com.techelevator.tenmo.controller;
 import com.techelevator.tenmo.dao.JdbcAccountsDao;
 import com.techelevator.tenmo.dao.UserDao;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,12 @@ public class AccountController {
         int userId = userDao.findIdByUsername(principal.getName());
         //
         return accountsDao.getAccountByUserId(userId).getBalance();
+    }
+    @RequestMapping(path = "/balance/{id}", method = RequestMethod.GET)
+    public BigDecimal getBalance(@PathVariable int id) {
+        BigDecimal balance = accountsDao.getBalance(id);
+
+        return balance;
     }
 
 }

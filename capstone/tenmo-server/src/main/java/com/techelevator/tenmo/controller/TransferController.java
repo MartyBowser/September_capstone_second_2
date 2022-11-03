@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @RequestMapping ("/transfer")
@@ -57,6 +58,13 @@ public class TransferController {
 
 
     }
+
+    @RequestMapping(path = "/mytransfers", method = RequestMethod.GET)
+    public List<Transfer> getTransfersForUser(Principal principal){
+        return transferDao.getTransfersByUserId(userDao.findIdByUsername(principal.getName()));
+
+
+}
 
 }
 
