@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Transfer;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 public interface TransferDao {
 
@@ -11,5 +12,9 @@ public interface TransferDao {
     Transfer getTransferByUserId(int transferId);
 
     //public Transfer updateBalances();
+
+    Transfer resultToTransfer (int transferId);
+
+    }
 
 }
