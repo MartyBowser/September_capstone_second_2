@@ -38,6 +38,28 @@ public class JdbcAccountsDao implements AccountsDao {
 
         }
 
+    public BigDecimal getBalance(int user_id) {
+        String sql = "";
+
+        SqlRowSet results = null;
+        BigDecimal balance = jdbcTemplate.queryForObject(sql, BigDecimal.class, user_id);
+
+        return balance;
+
+    }
+
+    public BigDecimal addToBalance(BigDecimal amountToAdd, int id) {
+
+        String sql = "";
+
+        BigDecimal newBalance = jdbcTemplate.queryForObject(sql, BigDecimal.class, amountToAdd, id);
+
+        return newBalance;
+    }
+
+
+
+
      public Account updateBalances(BigDecimal balance, int user_id){
         Account result = account;
         boolean finished = false;

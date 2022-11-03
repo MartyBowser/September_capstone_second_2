@@ -8,6 +8,12 @@ public interface AccountsDao {
 
     Account getAccountByUserId(int userId);
 
+    BigDecimal getBalance(int userId);
+
+    BigDecimal addToBalance(BigDecimal amountToAdd, int id);
+
+    BigDecimal subtractFromBalance(BigDecimal amountToSubtract, int id);
+
     //BigDecimal getBalanceByUserId(int accountId);
 
    // Accounts getAccountsUsingUserId(int userId);
