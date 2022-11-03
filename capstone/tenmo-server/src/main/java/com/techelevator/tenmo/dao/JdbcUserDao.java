@@ -96,6 +96,11 @@ public class JdbcUserDao implements UserDao {
         return true;
     }
 
+    @Override
+    public String findNameByAccountId(int accountId) {
+        return null;
+    }
+
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
         user.setId(rs.getInt("user_id"));

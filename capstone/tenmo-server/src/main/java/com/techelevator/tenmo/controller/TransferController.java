@@ -65,6 +65,22 @@ public class TransferController {
 
 
 }
+    @RequestMapping(path ="/getstatus", method = RequestMethod.POST)
+    public Transfer getStatusFromStatusId(@RequestBody @Valid int statusId){
+        //string results = ?? return results
+        return transferDao.getStatusByStatusId(statusId);
+    }
+
+    @RequestMapping(path = "/gettype", method = RequestMethod.GET)
+    public String getTypeFromTypeId (@Valid @RequestBody int typeId){
+        return transferDao.getTypeByTypeId(typeId);
+    }
+    @RequestMapping(path ="/transfer", method = RequestMethod.GET)
+    public int getTransfer(@PathVariable int transfer){
+        transfer = transferDao.getTransfer(transfer);
+        return transfer;
+    }
+
 
 }
 

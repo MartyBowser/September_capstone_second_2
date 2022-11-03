@@ -20,5 +20,11 @@ public interface TransferDao {
     //List<Integer> getAllTransferIds();
 
     Transfer getTransferByTransferId(int id);
+
+    Transfer getStatusByStatusId(int statusId);
+
+    String getTypeByTypeId(int typeId);
+
+    int getTransfer(int transfer);
 }
 
