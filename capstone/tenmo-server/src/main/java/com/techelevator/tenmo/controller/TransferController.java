@@ -7,6 +7,7 @@ import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,17 +22,18 @@ import java.util.List;
 @RestController
 public class TransferController {
 
-    private JdbcAccountsDao accountDao;
+    private AccountsDao accountDao;
     private TransferDao transferDao;
     private UserDao userDao;
     private static final int APPROVED = 1;
     private static final int SEND = 2;
 
 
-    // This method below is not needed - Autowire TransferDao and UserDao instead
-    public TransferController(AccountsDao accountsDao, TransferDao transferDao) {
-        this.accountDao = accountDao;
+
+    public TransferController(TransferDao transferDao, AccountsDao accountsDao, UserDao userDao) {
         this.transferDao = transferDao;
+        this.accountDao = accountsDao;
+        this.userDao = userDao;
     }
 
 

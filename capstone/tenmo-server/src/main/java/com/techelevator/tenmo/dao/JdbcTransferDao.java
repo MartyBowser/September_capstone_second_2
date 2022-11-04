@@ -95,6 +95,7 @@ public class JdbcTransferDao implements TransferDao{
             return "You can not send money to yourself.";
         }
          if ((amount.compareTo(jdbcAccountsDao.getBalance(accountFrom)) == 1 || amount.compareTo(jdbcAccountsDao.getBalance(accountFrom)) == 0) && amount.compareTo(new BigDecimal(0)) == -1) {
+            
 
              jdbcAccountsDao.addToBalance(amount, accountTo);
              jdbcAccountsDao.subtractFromBalance(amount, accountFrom);
@@ -110,6 +111,7 @@ public class JdbcTransferDao implements TransferDao{
              return "Your transfer is complete";
          } else {
 
+             //If you don't have enough funds or the amount is less than or equal to zero or you are not a valid user
              return "Transfer failed";
          }
 
