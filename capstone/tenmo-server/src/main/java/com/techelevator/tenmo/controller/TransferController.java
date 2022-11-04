@@ -10,7 +10,9 @@ import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,17 +40,16 @@ public class TransferController {
     }
 
 
-
-    @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/transfer", method = RequestMethod.POST)
-    public Transfer sendTransfer(@Valid @RequestBody Transfer transfer) {
+    public ResponseEntity<String> sendTransfer(@Valid @RequestBody Transfer transfer) {
         //transfer.setTransferStatusId(APPROVED);
-        if(transfer.getAccountTo()==transfer.getAccountFrom()){ResponseStatus.get
+        Transfer updatedTransfer = null;
+        if(transfer.getAccountTo()==transfer.getAccountFrom()){return new ResponseEntity<String>("You can not transfer money to yourself", HttpStatus.BAD_REQUEST);}
         //transfer.setTransferTypeId(SEND);
         BigDecimal accountFrom = accountDao.getBalanceByAccountId(transfer.getAccountFrom());
         //Account accountTo = accountDao.getAccountByUserId(transfer.getAccountTo());
         int compare = accountFrom.compareTo(transfer.getAmount());
-        Transfer updatedTransfer = null;
+
         if (compare >= 0) {
             updatedTransfer = transferDao.insertTransfer(transfer);
         }
@@ -56,8 +57,10 @@ public class TransferController {
             accountDao.addToBalance(transfer.getAmount(), transfer.getAccountTo());
             accountDao.subtractFromBalance(transfer.getAmount(), transfer.getAccountFrom());
 
+        } else {
+            return new ResponseEntity<String>("Insufficient Funds can not process", HttpStatus.BAD_REQUEST);
         }
-        return updatedTransfer;
+        return new ResponseEntity<String>("Transfer complete", HttpStatus.CREATED);
     }
 
     @RequestMapping(path = "/transfer/{id}", method = RequestMethod.GET)
