@@ -18,18 +18,20 @@ public class JdbcTransferDao implements TransferDao{
         this.jdbcAccountsDao = jdbcAccountsDao;
     }
 
-    public Transfer insertTransfer(Transfer transfer) {
-        return null;
+    public void insertTransfer(Transfer transfer) {
+        String sql = "INSERT INTO transfer(transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
+                "VALUES(2,2, ?, ?, ?)";
+
+        int reportId = jdbcTemplate.queryForObject(sql, Integer.class, transfer.getTransferTypeId(), transfer.getTransferStatusId(), transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount());
+
     }
+
 
     public List<Transfer> getTransfersByUserId(int userId) {
         return null;
     }
 
-    @Override
-    public Transfer updateBalances() {
-        return null;
-    }
+
 
     @Override
     public Transfer getTransferByTransferId(int id) {

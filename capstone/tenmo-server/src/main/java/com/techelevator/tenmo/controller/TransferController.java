@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 
@@ -40,18 +41,19 @@ public class TransferController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/transfer", method = RequestMethod.POST)
-    public Transfer sendTransfer(@Valid @RequestBody @PathVariable Transfer transfer) {
-        transfer.setTransferStatusId(APPROVED);
-        transfer.setTransferTypeId(SEND);
-        Account accountFrom = accountDao.getAccountByUserId(transfer.getAccountFrom());
-        Account accountTo = accountDao.getAccountByUserId(transfer.getAccountTo());
-        int compare = accountTo.getBalance().compareTo(transfer.getAmount());
+    public Transfer sendTransfer(@Valid @RequestBody Transfer transfer) {
+        //transfer.setTransferStatusId(APPROVED);
+        //transfer.setTransferTypeId(SEND);
+        BigDecimal accountFrom = accountDao.getBalanceByAccountId(transfer.getAccountFrom());
+        //Account accountTo = accountDao.getAccountByUserId(transfer.getAccountTo());
+        int compare = accountFrom.compareTo(transfer.getAmount());
         Transfer updatedTransfer = null;
-        if (compare == APPROVED || compare == SEND) {
+        if (compare >= 0) {
             updatedTransfer = transferDao.insertTransfer(transfer);
         }
         if (updatedTransfer != null) {
-            accountDao.updateBalances(updatedTransfer);
+            accountDao.addToBalance(transfer.getAmount(), transfer.getAccountTo());
+            accountDao.subtractFromBalance(transfer.getAmount(), transfer.getAccountTo());
 
         }
         return updatedTransfer;
