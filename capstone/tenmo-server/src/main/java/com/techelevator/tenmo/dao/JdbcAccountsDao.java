@@ -84,10 +84,9 @@ public class JdbcAccountsDao implements AccountsDao {
     }
 
 
-    //public Account updateBalances(BigDecimal balance, int user_id){
-       //Account result = account;
-        //boolean finished = false;
-        //List<>
+   // public Account updateBalances(BigDecimal balance, int user_id){
+     //  Account result = account;
+      //  boolean finished = false;/List<>
 
      //}
 
