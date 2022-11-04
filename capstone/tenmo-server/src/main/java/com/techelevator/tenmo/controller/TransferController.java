@@ -38,7 +38,7 @@ public class TransferController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/transfer", method = RequestMethod.POST)
-    public Transfer sendTransfer(@Valid @RequestBody Transfer transfer) {
+    public Transfer sendTransfer(@Valid @RequestBody @PathVariable Transfer transfer) {
         transfer.setTransferStatusId(APPROVED);
         transfer.setTransferTypeId(SEND);
         Account accountFrom = accountDao.getAccountByUserId(transfer.getAccountFrom());
@@ -55,11 +55,11 @@ public class TransferController {
         return updatedTransfer;
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "/transfer/{id}", method = RequestMethod.GET)
     public Transfer getTransferFromTransferId(@PathVariable int id) {
         Transfer transfer = null;
         transfer = transferDao.getTransferByTransferId(id);
-        return transfer;
+        return transferDao.getTransferByTransferId(id);
 
 
     }
@@ -71,7 +71,7 @@ public class TransferController {
 
 }
     @RequestMapping(path ="/getstatus", method = RequestMethod.POST)
-    public Transfer getStatusFromStatusId(@RequestBody @Valid int statusId){
+    public Transfer getStatusFromStatusId(@RequestBody @Valid @PathVariable int statusId){
         //string results = ?? return results
         return transferDao.getStatusByStatusId(statusId);
     }
