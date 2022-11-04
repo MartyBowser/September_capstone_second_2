@@ -7,6 +7,7 @@ import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -26,10 +27,14 @@ public class TransferController {
     private static final int APPROVED = 1;
     private static final int SEND = 2;
 
+
+    // This method below is not needed - Autowire TransferDao and UserDao instead
     public TransferController(AccountsDao accountsDao, TransferDao transferDao) {
         this.accountDao = accountDao;
         this.transferDao = transferDao;
     }
+
+
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "", method = RequestMethod.POST)
