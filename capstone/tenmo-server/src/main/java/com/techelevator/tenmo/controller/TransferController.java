@@ -43,6 +43,7 @@ public class TransferController {
     @RequestMapping(path = "/transfer", method = RequestMethod.POST)
     public Transfer sendTransfer(@Valid @RequestBody Transfer transfer) {
         //transfer.setTransferStatusId(APPROVED);
+        if(transfer.getAccountTo()==transfer.getAccountFrom()){ResponseStatus.get
         //transfer.setTransferTypeId(SEND);
         BigDecimal accountFrom = accountDao.getBalanceByAccountId(transfer.getAccountFrom());
         //Account accountTo = accountDao.getAccountByUserId(transfer.getAccountTo());
@@ -53,7 +54,7 @@ public class TransferController {
         }
         if (updatedTransfer != null) {
             accountDao.addToBalance(transfer.getAmount(), transfer.getAccountTo());
-            accountDao.subtractFromBalance(transfer.getAmount(), transfer.getAccountTo());
+            accountDao.subtractFromBalance(transfer.getAmount(), transfer.getAccountFrom());
 
         }
         return updatedTransfer;

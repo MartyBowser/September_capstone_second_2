@@ -66,10 +66,10 @@ public class JdbcAccountsDao implements AccountsDao {
     public BigDecimal addToBalance(BigDecimal amountToAdd, int id) {
 
         String sql = "UPDATE account " +
-                "SET balance = ? " +
-                "WHERE account_id = ? RETURNING *;";
+                "SET balance = balance + ? " +
+                "WHERE account_id = ? RETURNING balance;";
 
-        BigDecimal newBalance = jdbcTemplate.queryForObject(sql, BigDecimal.class, amountToAdd.add(getBalance(id)) , id);
+        BigDecimal newBalance = jdbcTemplate.queryForObject(sql, BigDecimal.class, amountToAdd, id);
 
         return newBalance;
     }
@@ -77,10 +77,10 @@ public class JdbcAccountsDao implements AccountsDao {
     public BigDecimal subtractFromBalance(BigDecimal amountToSubtract, int id) {
 
         String sql = "UPDATE account " +
-                "SET balance = ? " +
-                "WHERE account_id = ? RETURNING *;";
+                "SET balance = balance - ? " +
+                "WHERE account_id = ? RETURNING balance;";
 
-        BigDecimal newBalance = jdbcTemplate.queryForObject(sql, BigDecimal.class, getBalance(id).subtract(amountToSubtract), id);
+        BigDecimal newBalance = jdbcTemplate.queryForObject(sql, BigDecimal.class, amountToSubtract, id);
 
         return newBalance;
     }

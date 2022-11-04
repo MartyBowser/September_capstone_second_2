@@ -18,12 +18,14 @@ public class JdbcTransferDao implements TransferDao{
         this.jdbcAccountsDao = jdbcAccountsDao;
     }
 
-    public void insertTransfer(Transfer transfer) {
+    public Transfer insertTransfer(Transfer transfer) {
+        Transfer transfer1 = null;
         String sql = "INSERT INTO transfer(transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
-                "VALUES(2,2, ?, ?, ?)";
+                "VALUES(2,2, ?, ?, ?) RETURNING transfer_id";
 
-        int reportId = jdbcTemplate.queryForObject(sql, Integer.class, transfer.getTransferTypeId(), transfer.getTransferStatusId(), transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount());
-
+        int transferId = jdbcTemplate.queryForObject(sql, Integer.class, transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount());
+        //transfer1 = mapResultToTransfer(results);
+        return transferByTransferId(transferId);
     }
 
 
@@ -58,7 +60,7 @@ public class JdbcTransferDao implements TransferDao{
         return null;
     }
 
-    @Override
+
     public List<Integer> getAllTransferIds() {
         return null;
     }
@@ -75,8 +77,8 @@ public class JdbcTransferDao implements TransferDao{
         //Step 1 - declare the return type
 
         //Step 2 - create the sql
-        String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount ?" +
-                "FROM transfer ?" +
+        String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount " +
+                "FROM transfer " +
                 "WHERE transfer_id = ?;";
         //Step 3 - send sql to database
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, transferId);
