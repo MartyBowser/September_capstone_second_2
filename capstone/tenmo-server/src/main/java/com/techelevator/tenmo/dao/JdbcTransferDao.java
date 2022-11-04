@@ -106,6 +106,8 @@ public class JdbcTransferDao implements TransferDao{
              transferToTrack.setTransferStatusId(2);
              transferToTrack.setTransferTypeId(1);
 
+             createTransfer(transferToTrack);
+
              return "Your transfer is complete";
          } else {
 
