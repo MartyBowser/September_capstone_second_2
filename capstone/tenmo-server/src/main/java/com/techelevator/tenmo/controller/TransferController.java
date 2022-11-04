@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
-@RequestMapping ("/transfer")
+
 @PreAuthorize("isAuthenticated()")
 @RestController
 public class TransferController {
@@ -32,7 +32,7 @@ public class TransferController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(path = "", method = RequestMethod.POST)
+    @RequestMapping(path = "/transfer", method = RequestMethod.POST)
     public Transfer sendTransfer(@Valid @RequestBody Transfer transfer) {
         transfer.setTransferStatusId(APPROVED);
         transfer.setTransferTypeId(SEND);
