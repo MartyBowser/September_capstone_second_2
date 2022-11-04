@@ -13,11 +13,11 @@ public interface TransferDao {
 
     List<Transfer> getTransfersByUserId(int userId);
 
-    //public Transfer updateBalances();
+    public Transfer updateBalances();
 
-    //Transfer resultToTransfer (int transferId);
+    Transfer resultToTransfer (int transferId);
 
-    //List<Integer> getAllTransferIds();
+    List<Integer> getAllTransferIds();
 
     Transfer getTransferByTransferId(int id);
 

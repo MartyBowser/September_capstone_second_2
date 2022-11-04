@@ -26,12 +26,37 @@ public class JdbcTransferDao implements TransferDao{
     }
 
     @Override
+    public Transfer updateBalances() {
+        return null;
+    }
+
+    @Override
     public Transfer getTransferByTransferId(int id) {
         return null;
     }
 
+    @Override
+    public Transfer getStatusByStatusId(int statusId) {
+        return null;
+    }
+
+    @Override
+    public String getTypeByTypeId(int typeId) {
+        return null;
+    }
+
+    @Override
+    public int getTransfer(int transfer) {
+        return 0;
+    }
+
 
     public Transfer resultToTransfer(int transferId) {
+        return null;
+    }
+
+    @Override
+    public List<Integer> getAllTransferIds() {
         return null;
     }
 
