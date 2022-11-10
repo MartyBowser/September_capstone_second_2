@@ -37,7 +37,7 @@ public class JdbcTransferDao implements TransferDao{
 
     @Override
     public Transfer getTransferByTransferId(int id) {
-        return null;
+        return transferByTransferId(id);
     }
 
     @Override
